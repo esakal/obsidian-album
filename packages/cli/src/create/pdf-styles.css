@@ -1,0 +1,124 @@
+body {
+    direction: rtl;
+    margin: 0;
+    font-family: Arial;
+    line-height: 1.5rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* attempt to hide footer of electron */
+div[data-page="1"] {
+    display: none;
+}
+
+/* glued content */
+div.glued-content {
+    break-inside: avoid;
+}
+
+
+/*  gallery */
+
+/* Clear floats after the columns */
+div.gallery {
+    display: flex;
+    justify-content: center;
+    direction: ltr;
+}
+div.gallery:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+div.gallery .gallery-column {
+    float: right;
+    width: 25%;
+    padding: 0 4px;
+    text-align: center;
+}
+
+
+div.gallery-1 .gallery-column {
+    width: 50%;
+}
+
+div.gallery-2 .gallery-column {
+    width: 50%;
+}
+
+div.gallery-3 .gallery-column {
+    width: 33%;
+}
+
+/* gallery images */
+img {
+    max-height: 300px;
+    max-width: 100%;
+    margin-top: 8px;
+    vertical-align: middle;
+    border-radius: 20px;
+    object-fit: contain;
+    width: auto;
+    height: auto;
+}
+
+
+/* general */
+h1 {
+    break-before: page;
+}
+
+body > *:not(h1) {
+    margin-top: 24px;
+}
+
+/* Cover */
+.image {
+    text-align: center;
+    width: 100%;
+    margin-top: 100px;
+    overflow: hidden;
+}
+
+.image img {
+    width: 60%;
+    object-fit: cover;
+}
+
+.cover {
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    align-items: center;
+
+}
+
+p:has(> strong) {
+    margin-bottom: 0;
+}
+
+p:has(> strong) + .glued-content, p:has(> strong) + p {
+    margin-top: 0;
+}
+
+strong + p {
+    margin-top: 0;
+}
+
+
+
+.title {
+    font-size: 32px;
+    font-weight: bolder;
+    margin-top: 40px;
+}
+
+.dates {
+    margin-top: 10px;
+}
