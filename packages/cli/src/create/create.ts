@@ -7,12 +7,12 @@ import rehypeFormat from 'rehype-format'
 import rehypeStringify from 'rehype-stringify'
 import fs from 'fs';
 import path from 'path';
-import remarkPrepareMonntessori from './remark-plugins/remark-prepare-montessori.js';
+import remarkPrepareMonntessori from './remark-plugins/remark-prepare-masonry.js';
 import rehypeAddCover from './rehype-plugins/rehype-add-cover.js';
 import remarkHandleHeaders from './remark-plugins/remark-handle-headers.js';
  import remarkHandleWikilinks from './remark-plugins/remark-handle-wikilinks.js';
-import rehypeDetectMontessori from './rehype-plugins/rehype-detect-montessori.js';
-import rehypeBindTextAndMontessori from './rehype-plugins/rehype-bind-text-and-montessori.js';
+import rehypeDetectMasonry from './rehype-plugins/rehype-detect-masonry.js';
+import rehypeBindTextAndMasonry from './rehype-plugins/rehype-bind-text-and-masonry.js';
 import frontmatter from 'remark-frontmatter';
 import express from "express";
 import processImage from "express-processimage";
@@ -156,18 +156,18 @@ export const create = async function(options: Options){
             .use(remarkRehype)
             .use(() => tree => {
                 console.timeEnd('remarkRehype')
-                console.time('rehypeDetectMontessori')
+                console.time('rehypeDetectMasonry')
                 return tree;
             })
-            .use(rehypeDetectMontessori)
+            .use(rehypeDetectMasonry)
             .use(() => tree => {
-                console.timeEnd('rehypeDetectMontessori')
-                console.time('rehypeBindTextAndMontessori')
+                console.timeEnd('rehypeDetectMasonry')
+                console.time('rehypeBindTextAndMasonry')
                 return tree;
             })
-            .use(rehypeBindTextAndMontessori)
+            .use(rehypeBindTextAndMasonry)
             .use(() => tree => {
-                console.timeEnd('rehypeBindTextAndMontessori')
+                console.timeEnd('rehypeBindTextAndMasonry')
                 console.time('rehypeDocument')
                 return tree;
             })
