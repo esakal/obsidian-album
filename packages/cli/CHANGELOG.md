@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/esakal/obsidian-album/compare/cli-v1.0.0...cli-v1.0.1) (2023-01-01)
+
+
+### Bug Fixes
+
+* deploy to npm ([ae51274](https://github.com/esakal/obsidian-album/commit/ae5127487da52abf4e47619ab254b1fd73bc8d2a))
+
 # 1.0.0 (2023-01-01)
 
 
