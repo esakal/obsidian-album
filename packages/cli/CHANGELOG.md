@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/esakal/obsidian-album/compare/cli-v1.0.2...cli-v1.0.3) (2023-01-01)
+
+
+### Bug Fixes
+
+* force deployment ([a8e353d](https://github.com/esakal/obsidian-album/commit/a8e353de55a00e64199fa246bf18987e1909b3d0))
+
 ## [1.0.2](https://github.com/esakal/obsidian-album/compare/cli-v1.0.1...cli-v1.0.2) (2023-01-01)
 
 
