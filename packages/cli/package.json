@@ -2,7 +2,9 @@
   "name": "obsidian-album",
   "version": "1.0.3",
   "type": "module",
-  "bin": "./src/cli.js",
+  "bin": {
+    "obsidian-album": "./src/cli.js"
+  },
   "private": false,
   "author": {
     "email": "eran@sakalim.com",
