@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/esakal/obsidian-album/compare/cli-v1.0.4...cli-v1.0.5) (2023-01-01)
+
+
+### Bug Fixes
+
+* npx one off command ([b38e68d](https://github.com/esakal/obsidian-album/commit/b38e68d214d9e340eabf6f4284c729a67f6de31f))
+
 ## [1.0.4](https://github.com/esakal/obsidian-album/compare/cli-v1.0.3...cli-v1.0.4) (2023-01-01)
 
 
