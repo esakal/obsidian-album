@@ -62,6 +62,8 @@ function regExpEscape(value: string) {
 
 interface Options {
   debugMode: boolean,
+  backCover: boolean,
+  extraEmptyPage: boolean,
   vault: string,
   target: string,
   subFolder: string,
@@ -81,6 +83,8 @@ export const create = async function(options: Options){
       filterFrom,
       filterTo,
       title,
+      backCover,
+      extraEmptyPage,
       coverImage,
     } = options;
 
@@ -97,7 +101,7 @@ export const create = async function(options: Options){
 
         debug('create the album source file')
         for(let fileName of fileNames) {
-            const fileDateMatch = fileName.match(new RegExp(`(.+?) ${regExpEscape(filterBy)}`));
+            const fileDateMatch = fileName.match(new RegExp(`(\\d{4}-\\d{2}-\\d{2}) ${regExpEscape(filterBy)}\.md`));
             const fileDate = fileDateMatch ? moment(fileDateMatch[1]) : null;
             if (fileDate?.isValid()
                 && (!filterFrom || fileDate.isSameOrAfter(filterFrom))
@@ -171,7 +175,7 @@ export const create = async function(options: Options){
                 console.time('rehypeDocument')
                 return tree;
             })
-            .use(rehypeAddCover, { title, fromDate: filterFrom, toDate: filterTo, coverImage: `${imageServerUrl}/${coverImage}` })
+            .use(rehypeAddCover, { title, fromDate: filterFrom, toDate: filterTo, coverImage: `${imageServerUrl}/${coverImage}`, backCover, extraEmptyPage })
             .use(rehypeDocument, {title, language: 'he'})
             .use(() => tree => {
                 console.timeEnd('rehypeDocument')

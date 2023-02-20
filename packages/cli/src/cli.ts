@@ -4,8 +4,8 @@ import {createCommand} from "./create/command.js";
 
 const program = new Command();
 program
-  .name('Obsidian PDF Album creator')
-  .description('Create printable styled PDF album from Obsidian')
+  .name('Obsidian PDF album creator')
+  .description('Create a printable styled PDF album from Obsidian')
 
 program.addCommand(createCommand());
 

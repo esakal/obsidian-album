@@ -1,6 +1,9 @@
 # Obsidian album creation
 
-## Build library
+## Documentation
+See the package [README.md file](./packages/cli/README.md)
+
+## Build the library
 run `npm run build` to build the library and `npm run watch` to also watch for changes.
 
 ## Running the library

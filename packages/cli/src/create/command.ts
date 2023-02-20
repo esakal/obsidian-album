@@ -13,6 +13,8 @@ export const createCommand = () => {
     .argument('<target>', 'target pdf path')
     .option('--verbose', 'output debug logs',false)
     .option('--debug', 'debug',false)
+    .option('--backCover', 'should create back cover',false)
+    .option('--extraEmptyPage', 'should add empty page at the end of the album',false)
     .requiredOption('--vault <path>', 'the target name', '')
     .option('--subFolder <path>', 'A sub folder inside the vault to look in', '')
     .option('--filterBy <path>', 'A suffix to look for in file name', '')
@@ -32,6 +34,8 @@ export const createCommand = () => {
         target,
         vault: options.vault,
         debugMode: options.debug,
+        backCover: options.backCover,
+        extraEmptyPage: options.extraEmptyPage,
         subFolder: options.subFolder,
         filterBy: options.filterBy,
         filterFrom: options.filterFrom,
