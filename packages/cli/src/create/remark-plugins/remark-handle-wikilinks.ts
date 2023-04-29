@@ -34,7 +34,7 @@ function convertTextNode(node: any, imageServerUrl: string) {
           `[${match[match.length-1]?.replace(' ', '').replace('|', '')}]`
           : null;
 
-        const resizeSize = imageMetadata === '[size:full]' ? 1300 : 300
+        const resizeSize = imageMetadata === '[size:full]' ? 1300 : 300;
         const imageNode = {
             type: "image",
             title: imageMetadata,
@@ -66,9 +66,17 @@ export default function attacher(options: {
     imageServerUrl: string
 }): Transformer {
     return function transformer(tree: any, vfile: any) {
+      visit(tree, 'image', (node, index, parent) => {
+        // TODO handle better ![]()
+        if (node.url.startsWith('images')) {
+          node.url = node.url.replace('images/', 'http://localhost:3679/')
+        }
+      });
         visit(tree, 'text', (node, index, parent) => {
+
             if (node.value.indexOf('![[') !== -1
             || node.value.indexOf('![](') !== -1) {
+
                 const newNode = convertTextNode(node, options.imageServerUrl);
                 parent.children.splice(index, 1, ...newNode.children)
             } else {

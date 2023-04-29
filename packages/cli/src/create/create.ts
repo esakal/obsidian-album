@@ -22,6 +22,7 @@ import puppeteer, {PDFOptions} from 'puppeteer';
 import * as url from 'url';
 import { parse as yaml } from 'yaml';
 import {rootDebug} from "../utils.js";
+import * as process from "process";
 
 const __dirname: any = url.fileURLToPath(new URL('.', import.meta.url) as any);
 
@@ -61,7 +62,6 @@ function regExpEscape(value: string) {
 }
 
 interface Options {
-  legacyImagePath?: boolean,
   debugMode: boolean,
   backCover: boolean,
   extraEmptyPage: boolean,
@@ -92,7 +92,7 @@ export const create = async function(options: Options){
     debug('create attachments server with port 3679');
     const app = express();
     app.use(processImage( { withMetadata: true}))
-    app.use(express.static(options.legacyImagePath ? vault : path.join(vault, 'images')))
+    app.use(express.static(path.join(vault, 'images')))
     app.listen(3679);
 
     const sourcePath = subFolder ? path.join(vault, subFolder) : vault;
@@ -146,6 +146,7 @@ export const create = async function(options: Options){
             .use(() => tree => {
                 console.timeEnd('remarkHandleWikilinks')
                 console.time('remarkPrepareMonntessori')
+              // console.dir(tree, { depth: null})
                 return tree;
             })
             .use(remarkPrepareMonntessori)
