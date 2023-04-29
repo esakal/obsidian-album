@@ -61,6 +61,7 @@ function regExpEscape(value: string) {
 }
 
 interface Options {
+  legacyImagePath?: boolean,
   debugMode: boolean,
   backCover: boolean,
   extraEmptyPage: boolean,
@@ -91,7 +92,7 @@ export const create = async function(options: Options){
     debug('create attachments server with port 3679');
     const app = express();
     app.use(processImage( { withMetadata: true}))
-    app.use(express.static(path.join(vault, 'images')))
+    app.use(express.static(options.legacyImagePath ? vault : path.join(vault, 'images')))
     app.listen(3679);
 
     const sourcePath = subFolder ? path.join(vault, subFolder) : vault;
@@ -101,11 +102,13 @@ export const create = async function(options: Options){
 
         debug('create the album source file')
         for(let fileName of fileNames) {
-            const fileDateMatch = fileName.match(new RegExp(`(\\d{4}-\\d{2}-\\d{2}) ${regExpEscape(filterBy)}\.md`));
+            const fileDateMatch = fileName.match(new RegExp(`(\\d{4}-\\d{2}-\\d{2})${filterBy ? ` ${regExpEscape(filterBy)}`: ''}\.md`));
             const fileDate = fileDateMatch ? moment(fileDateMatch[1]) : null;
+
             if (fileDate?.isValid()
                 && (!filterFrom || fileDate.isSameOrAfter(filterFrom))
                 && (!filterTo || fileDate.isSameOrBefore((filterTo)))) {
+
                 const header = fileDate.format("יום dddd, D MMMM YYYY")
                 const content = fs.readFileSync(path.join(sourcePath, fileName), 'utf8');
 

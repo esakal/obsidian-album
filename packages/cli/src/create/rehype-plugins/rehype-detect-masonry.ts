@@ -85,11 +85,16 @@ export default function attacher(): Transformer {
                     const orderedByOrientation = await orderByOrientation(node.children);
                     const columns = splitToColumns(orderedByOrientation, columnCount)
 
+                    const customClass = columns.length === 1 && columns?.[0]?.[0]?.properties?.title?.startsWith?.('[')
+                        ? columns[0][0].properties.title.replace('[','').replace(']','').replace(':','-')
+                      : null;
+
+                  // TODO remove all title that are metadata
                     node.children = columns.map(columnChildren => {
                         return {
                             type: 'element',
                             tagName: 'div',
-                            properties: {class: 'gallery-column'},
+                            properties: {class: 'gallery-column' + (customClass ? ` ${customClass}` : '')},
                             children: columnChildren
                         };
                     });

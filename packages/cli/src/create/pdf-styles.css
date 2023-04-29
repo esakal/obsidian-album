@@ -42,6 +42,14 @@ div.gallery .gallery-column {
 }
 
 
+div.gallery .gallery-column.size-full {
+  width: 90%
+}
+
+div.gallery .gallery-column.size-full img {
+  max-height: initial;
+}
+
 div.gallery-1 .gallery-column {
     width: 50%;
 }
@@ -66,9 +74,9 @@ img {
     height: auto;
 }
 
-img[title="[size-x2]"] {
-  max-height: 600px;
-}
+
+
+
 
 
 /* general */
