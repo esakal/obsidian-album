@@ -2,8 +2,7 @@ import {visit} from "unist-util-visit";
 import {Transformer} from "unified";
 import probe from 'probe-image-size';
 
-// notice - if changing this value, should manually update default width in the css `div.gallery .gallery-column`
-const maxColumnCount = 4;
+
 
 async function orderByOrientation(arr: any[]) {
     const result = [...arr];
@@ -30,7 +29,7 @@ async function orderByOrientation(arr: any[]) {
 }
 function splitToColumns(arr: any[], columnsCount: number) {
     const result = [];
-    const balancedLength = arr.length > columnsCount ? Math.floor(arr.length / maxColumnCount) * maxColumnCount : arr.length;
+    const balancedLength = arr.length > columnsCount ? Math.floor(arr.length / columnsCount) * columnsCount : arr.length;
     for(let columnNumber = 0;columnNumber < columnsCount;columnNumber++) {
         const columnItems = [];
         let innerIndex = columnNumber;
@@ -61,10 +60,30 @@ export default function attacher(): Transformer {
                 if (node.children.every((child: any) => child.tagName === 'img')) {
                     node.tagName = 'div';
                     node.properties = node.properties || {};
-                    node.properties.class = ((node.properties.class || '') + ` gallery gallery-${node.children.length}`).trim();
+
+                  // notice - if changing this value, should manually update default width in the css `div.gallery .gallery-column`
+                  let columnCount = 4;
+                    switch (node.children.length) {
+                      case 1:
+                        columnCount = 1;
+                        break;
+                      case 2:
+                        columnCount = 2;
+                        break;
+                      case 4:
+                        columnCount = 4;
+                        break;
+                      case 3:
+                      case 5:
+                      case 6:
+                        columnCount = 3;
+                        break;
+                    }
+
+                    node.properties.class = ((node.properties.class || '') + ` gallery gallery-${columnCount}`).trim();
 
                     const orderedByOrientation = await orderByOrientation(node.children);
-                    const columns = splitToColumns(orderedByOrientation, maxColumnCount)
+                    const columns = splitToColumns(orderedByOrientation, columnCount)
 
                     node.children = columns.map(columnChildren => {
                         return {
