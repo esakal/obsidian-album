@@ -66,6 +66,10 @@ img {
     height: auto;
 }
 
+img[title="[size-x2]"] {
+  max-height: 600px;
+}
+
 
 /* general */
 h1 {

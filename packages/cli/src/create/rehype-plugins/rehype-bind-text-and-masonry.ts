@@ -15,8 +15,10 @@ export default function attacher(): Transformer {
                 if (typeof nodeValue === 'string')
                 {
                     if (!nodeValue.endsWith('.') && nodeValue.length > 0) {
+                      // verify each sentence ends with a dot
                         node.children[0].value = node.children[0].value.trim() + '.'
                     } else if (nodeValue === '.' || nodeValue === '...') {
+                      // remove special mark . or ...
                         node.children[0].value = ''
                     }
                 }
@@ -26,19 +28,33 @@ export default function attacher(): Transformer {
                 && secondNode?.type === 'text' && secondNode?.value === '\n'
                 && thirdNode?.properties?.class?.includes?.('gallery')
 
-            const isTitleAndContent = node?.tagName === 'p' && node.children?.[0]?.tagName === 'strong'
-                && secondNode?.type === 'text' && secondNode?.value === '\n'
-                && thirdNode
-
-            if (isTextAndGallery || isTitleAndContent) {
-
+            if (isTextAndGallery) {
                 tree.children.splice(i+2, 1)
                 node.tagName = 'div';
                 node.children.push(thirdNode);
                 node.properties = node.properties || {};
                 node.properties.class = ((node.properties.class || '') + ' glued-content').trim();
             }
+
+          const isTitleAndShortContent =  node.tagName === 'h2'
+            && secondNode?.type === 'text' && secondNode?.value === '\n'
+            && thirdNode && thirdNode?.tagName === 'p' && thirdNode.children?.[0]?.value?.length < 500
+
+          if (isTitleAndShortContent) {
+            tree.children.splice(i+2, 1)
+            const newChild = {
+
+              type: 'element',
+              tagName: 'div',
+              properties: { class: 'glued-content'},
+              children: [tree.children[i], thirdNode]
+
+            }
+            tree.children[i] = newChild;
+          }
+
         }
+
 
         return tree;
     };

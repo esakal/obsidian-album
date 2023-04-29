@@ -4,7 +4,7 @@ Credits to: https://github.com/TuanManhCao/digital-garden/blob/b0ea169e3768bdae2
 import {visit} from "unist-util-visit";
 import {Transformer} from "unified";
 
-const regex = /\!\[\[((.+?)\.(jpg|jpeg|png|gif|svg|webp))\]\]/gim;
+const regex = /\!\[\[((.+?)\.(jpg|jpeg|png|gif|svg|webp))(|.*?)?\]\]/gim;
 
 function convertTextNode(node: any, imageServerUrl: string) {
     const searchText = node.value;
@@ -28,9 +28,11 @@ function convertTextNode(node: any, imageServerUrl: string) {
             children.push(textNode);
         }
 
+        const title = match[match.length-1]?.replace(' ', '') === '|x2' ? '[size-x2]' : null;
 
         const imageNode = {
             type: "image",
+            title,
             //TODO: Use some kind of option to pass in default images path
             url: encodeURI(`${imageServerUrl}/${match[1]}?rotate&resize=,300`), //encode white space from file name
         };
