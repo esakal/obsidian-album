@@ -28,27 +28,28 @@ export default function attacher(): Transformer {
                 && secondNode?.type === 'text' && secondNode?.value === '\n'
                 && thirdNode?.properties?.class?.includes?.('gallery')
 
-            if (isTextAndGallery) {
+          const isTitleAndShortContent =  node.tagName === 'h2'
+            && secondNode?.type === 'text' && secondNode?.value === '\n'
+            && thirdNode && thirdNode?.tagName === 'p' && thirdNode.children?.[0]?.value?.length < 500
+
+          const isTitleAndGallery = node?.tagName === 'h2'
+            && secondNode?.type === 'text' && secondNode?.value === '\n'
+            && thirdNode?.properties?.class?.includes?.('gallery')
+
+
+          if (isTextAndGallery) {
                 tree.children.splice(i+2, 1)
                 node.tagName = 'div';
                 node.children.push(thirdNode);
                 node.properties = node.properties || {};
                 node.properties.class = ((node.properties.class || '') + ' glued-content').trim();
-            }
-
-          const isTitleAndShortContent =  node.tagName === 'h2'
-            && secondNode?.type === 'text' && secondNode?.value === '\n'
-            && thirdNode && thirdNode?.tagName === 'p' && thirdNode.children?.[0]?.value?.length < 500
-
-          if (isTitleAndShortContent) {
+            } else if (isTitleAndShortContent || isTitleAndGallery) {
             tree.children.splice(i+2, 1)
             const newChild = {
-
               type: 'element',
               tagName: 'div',
               properties: { class: 'glued-content'},
               children: [tree.children[i], thirdNode]
-
             }
             tree.children[i] = newChild;
           }
