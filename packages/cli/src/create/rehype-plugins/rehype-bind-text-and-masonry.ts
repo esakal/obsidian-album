@@ -28,11 +28,11 @@ export default function attacher(): Transformer {
                 && secondNode?.type === 'text' && secondNode?.value === '\n'
                 && thirdNode?.properties?.class?.includes?.('gallery')
 
-          const isTitleAndShortContent =  node.tagName === 'h2'
+          const isTitleAndShortContent =  (node.tagName === 'h2' || node.tagName === 'h1' || node.tagName === 'h3')
             && secondNode?.type === 'text' && secondNode?.value === '\n'
             && thirdNode && thirdNode?.tagName === 'p' && thirdNode.children?.[0]?.value?.length < 500
 
-          const isTitleAndGallery = node?.tagName === 'h2'
+          const isTitleAndGallery = (node.tagName === 'h2' || node.tagName === 'h1' || node.tagName === 'h3')
             && secondNode?.type === 'text' && secondNode?.value === '\n'
             && thirdNode?.properties?.class?.includes?.('gallery')
 

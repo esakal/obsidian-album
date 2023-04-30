@@ -11,16 +11,22 @@ export default function attacher(): Transformer {
                         isGallery: false
                     })
                 } else {
-                    (item.children || []).reduce((acc: any[], subItem: any) => {
+                    (item.children || []).reduce((acc: any[], subItem: any,currentIndex) => {
+
+                        const isPrevImage = currentIndex > 0 ? item.children[currentIndex - 1].type === 'image' : true;
+                        const isEmptyLine = subItem.type === 'text' && subItem.value === '\n';
                         const isChildImage = subItem.type === 'image';
 
-                        if (acc.length === 0) {
+                        if (isPrevImage && isEmptyLine) {
+                          // skip
+                        } else if (acc.length === 0) {
                             acc.push({
                                 type: 'paragraph',
                                 isGallery: isChildImage,
                                 children: [subItem]
                             })
                         } else {
+
                             const shouldAddToNode = acc[acc.length - 1].isGallery && isChildImage;
 
                             if (shouldAddToNode) {

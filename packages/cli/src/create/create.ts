@@ -6,6 +6,7 @@ import rehypeDocument from 'rehype-document'
 import rehypeFormat from 'rehype-format'
 import rehypeStringify from 'rehype-stringify'
 import fs from 'fs';
+import fse from 'fs-extra';
 import path from 'path';
 import remarkPrepareMonntessori from './remark-plugins/remark-prepare-masonry.js';
 import rehypeAddCover from './rehype-plugins/rehype-add-cover.js';
@@ -134,25 +135,28 @@ export const create = async function(options: Options){
         const file = await unified()
             .use(() => tree => {
                 console.time('remarkParse')
+              fse.writeJSONSync(path.resolve('ast/1.json'),tree, { spaces: 2});
                 return tree;
             })
             .use(remarkParse)
             .use(() => tree => {
                 console.timeEnd('remarkParse')
                 console.time('remarkHandleWikilinks')
+              fse.writeJSONSync(path.resolve('ast/2-remark-parse.json'),tree, { spaces: 2});
                 return tree;
             })
             .use(remarkHandleWikilinks, { imageServerUrl })
             .use(() => tree => {
                 console.timeEnd('remarkHandleWikilinks')
                 console.time('remarkPrepareMonntessori')
-              // console.dir(tree, { depth: null})
+              fse.writeJSONSync(path.resolve('ast/3-remark-handle-wikis.json'),tree, { spaces: 2});
                 return tree;
             })
             .use(remarkPrepareMonntessori)
             .use(() => tree => {
                 console.timeEnd('remarkPrepareMonntessori')
                 console.time('remarkHandleHeaders')
+              fse.writeJSONSync(path.resolve('ast/4-remark-prepare-montessori.json'),tree, { spaces: 2});
                 return tree;
             })
             .use(remarkHandleHeaders)
@@ -165,12 +169,14 @@ export const create = async function(options: Options){
             .use(() => tree => {
                 console.timeEnd('remarkRehype')
                 console.time('rehypeDetectMasonry')
+              fse.writeJSONSync(path.resolve('ast/6-remark-rehype.json'),tree, { spaces: 2});
                 return tree;
             })
             .use(rehypeDetectMasonry)
             .use(() => tree => {
                 console.timeEnd('rehypeDetectMasonry')
                 console.time('rehypeBindTextAndMasonry')
+              fse.writeJSONSync(path.resolve('ast/7-rehype-detect-monsonry.json'),tree, { spaces: 2});
                 return tree;
             })
             .use(rehypeBindTextAndMasonry)
